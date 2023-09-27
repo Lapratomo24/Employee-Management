@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,6 +39,11 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Long id) {
+        Optional<Employee> deleteEmployee = employeeRepo.findById(id);
+        if (deleteEmployee.isPresent()) {
+            Employee exist = deleteEmployee.get();
+            employeeRepo.deleteById(exist.getId());
+        }
         employeeRepo.deleteEmployeeById(id);
     }
 }
